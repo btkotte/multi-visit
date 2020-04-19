@@ -1,0 +1,44 @@
+version: '3'
+services:
+    my-redis-db:
+        image: redis
+        expose: 
+            - '6379'
+        volumes:
+          - ./redis:/data
+        restart: always
+
+    visit-app-1:
+        depends_on: 
+            - my-redis-db
+        build:
+            context: ./visitorapp
+            dockerfile: Dockerfile
+        expose:
+            - '9999'
+        environment:
+            REDISHOST: my-redis-db
+            REDISPORT: 6379
+
+    visit-app-2:
+        depends_on: 
+            - my-redis-db
+        build:
+            context: ./visitorapp
+            dockerfile: Dockerfile
+        expose:
+            - '9999'
+        environment:
+            REDISHOST: my-redis-db
+            REDISPORT: 6379
+
+    visit-app-lb:
+        depends_on: 
+            - visit-app-1
+            - visit-app-2
+        build:
+            context: ./nginx
+            dockerfile: Dockerfile
+        ports:
+            - 9999:80
+        restart: unless-stopped

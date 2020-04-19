@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "express": "*",
+    "redis": "*",
+    "jest": "*"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "jest"
+  }
+}
