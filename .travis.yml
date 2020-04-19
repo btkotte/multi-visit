@@ -16,6 +16,19 @@ after_success:
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
-  # Take above bu images and push them to docker hub
+  # Take above build images and push them to docker hub
   - docker push mrkotte/visitorapp
   - docker push mrkotte/visitorapp-nginx
+
+  deploy:
+    provider: elasticbeanstalk
+    region: eu-north-1
+    app: docker-multi-visit
+    env: DockerMultiVisit-env
+    bucket_name: elasticbeanstalk-eu-north-1-679022722124
+    bucket_path: docker-multi-visit
+    on:
+      branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key:
+      secure: $AWS_SECRET_KEY

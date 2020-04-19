@@ -1,0 +1,69 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "my-redis-server",
+      "image": "redis",
+      "hostname": "my-redis-server",
+      "essential": true,
+      "memory": 128
+    },
+    {
+      "name": "visitor-app-1",
+      "image": "mrkotte/visitorapp",
+      "hostname": "visitor-app-1",
+      "essential": false,
+      "environment": [
+        {
+          "name": "REDISHOST",
+          "value": "my-redis-server"
+        },
+        {
+          "name": "REDISPORT",
+          "value": "6379"
+        }
+      ],
+      "links": [
+        "my-redis-server"
+      ],
+      "memory": 128
+    },
+    {
+      "name": "visitor-app-2",
+      "image": "mrkotte/visitorapp",
+      "hostname": "visitor-app-2",
+      "essential": false,
+      "environment": [
+        {
+          "name": "REDISHOST",
+          "value": "my-redis-server"
+        },
+        {
+          "name": "REDISPORT",
+          "value": "6379"
+        }
+      ],
+      "links": [
+        "my-redis-server"
+      ],
+      "memory": 128
+    },
+    {
+      "name": "visitor-app-lb",
+      "image": "mrkotte/visitorapp-nginx",
+      "hostname": "visitor-app-lb",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": [
+        "visitor-app-1",
+        "visitor-app-2"
+      ],
+      "memory": 128
+    }
+  ]
+}
