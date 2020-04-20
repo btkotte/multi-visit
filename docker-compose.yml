@@ -2,7 +2,7 @@ version: '3'
 services:
     my-redis-db:
         image: redis
-        expose: 
+        expose:
             - '6379'
         volumes:
           - ./redis:/data
@@ -14,8 +14,6 @@ services:
         build:
             context: ./visitorapp
             dockerfile: Dockerfile
-        expose:
-            - '9999'
         environment:
             REDISHOST: my-redis-db
             REDISPORT: 6379
@@ -26,8 +24,6 @@ services:
         build:
             context: ./visitorapp
             dockerfile: Dockerfile
-        expose:
-            - '9999'
         environment:
             REDISHOST: my-redis-db
             REDISPORT: 6379

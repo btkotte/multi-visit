@@ -6,7 +6,7 @@
       "image": "redis",
       "hostname": "my-redis-server",
       "essential": true,
-      "memory": 128
+      "memory": 512
     },
     {
       "name": "visitor-app-1",
